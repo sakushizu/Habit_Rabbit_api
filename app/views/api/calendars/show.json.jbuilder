@@ -1,0 +1,1 @@
+json.extract! @calendar, :title, :color_R, :color_G, :color_B, :orner, :stamp_image

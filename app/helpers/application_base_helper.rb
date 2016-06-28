@@ -1,0 +1,2 @@
+module ApplicationBaseHelper
+end
