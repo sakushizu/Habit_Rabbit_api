@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     auth_token = ApiKey.find_by(access_token: request.headers[:token])
-    binding.pry
     @current_user = auth_token.user
   end
 

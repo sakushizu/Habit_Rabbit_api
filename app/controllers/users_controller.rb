@@ -36,7 +36,6 @@ class UsersController < ApplicationBaseController
       @avatar_url = @user.avatar.url
       render :create_with_FB, status: :created, location: @user
     else
-      binding.pry
       render json: @user.errors, status: :unprocessable_entity
     end
   end

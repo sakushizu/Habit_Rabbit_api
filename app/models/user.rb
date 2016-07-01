@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
   has_many :calendar_users
+  has_many :stamped_date
   has_many :calendars, through: :calendar_users
   has_many :api_keys, dependent: :destroy
 

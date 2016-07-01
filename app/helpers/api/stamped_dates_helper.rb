@@ -1,0 +1,2 @@
+module StampedDateHelper
+end
