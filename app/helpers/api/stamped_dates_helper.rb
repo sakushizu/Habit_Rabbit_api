@@ -1,2 +1,2 @@
-module StampedDateHelper
+module Api::StampedDatesHelper
 end

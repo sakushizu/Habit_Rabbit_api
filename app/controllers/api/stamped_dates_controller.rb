@@ -7,7 +7,6 @@ class Api::StampedDatesController < ApplicationController
 
   def create
     @stamped_date = StampedDate.create(create_params)
-    binding.pry
     if @stamped_date.save
     else
       @error_message = [stamped_date.errors.full_messages].compact # エラーが入ってるインスタンス変数を定義
