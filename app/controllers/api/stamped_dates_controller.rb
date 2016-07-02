@@ -1,5 +1,5 @@
 class Api::StampedDatesController < ApplicationController
-  before_action :set_user, only: [:create, :index]
+  before_action :set_user, only: [:create, :index, :destroy]
 
   def index
     @stamped_dates = StampedDate.where(user_id: @current_user, calendar_id: params[:calendar_id])
@@ -10,6 +10,14 @@ class Api::StampedDatesController < ApplicationController
     if @stamped_date.save
     else
       @error_message = [stamped_date.errors.full_messages].compact # エラーが入ってるインスタンス変数を定義
+    end
+  end
+
+  def destroy
+    date = StampedDate.find(params[:id])
+    date.destroy
+    respond_to do |format|
+      format.json { render nothing: true, status: :ok }
     end
   end
 
