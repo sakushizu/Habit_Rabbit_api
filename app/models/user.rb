@@ -1,13 +1,15 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
   has_many :calendar_users
-  has_many :stamped_date
+  has_many :stamped_dates
   has_many :calendars, through: :calendar_users
   has_many :api_keys, dependent: :destroy
 
   validates :email, uniqueness: true
 
   mount_uploader :avatar, AvatarUploader
+
+
 
   def self.login?(access_token)
     api_key = ApiKey.find_by_access_token(access_token)
