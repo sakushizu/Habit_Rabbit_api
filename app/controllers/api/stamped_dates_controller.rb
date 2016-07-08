@@ -14,8 +14,7 @@ class Api::StampedDatesController < ApplicationController
   end
 
   def destroy
-    date = StampedDate.find(params[:id])
-    date.destroy
+    StampedDate.destory(params[:id])
     respond_to do |format|
       format.json { render nothing: true, status: :ok }
     end
