@@ -1,1 +1,1 @@
-json.extract! @stamped_date, :date
+json.extract! @stamped_date, :id, :date
