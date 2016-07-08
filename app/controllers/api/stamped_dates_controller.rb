@@ -2,7 +2,7 @@ class Api::StampedDatesController < ApplicationController
   before_action :set_user, only: [:create, :index, :destroy]
 
   def index
-    @stamped_dates = StampedDate.where(user_id: @current_user, calendar_id: params[:calendar_id])
+    @stamped_dates = StampedDate.stamped_dates(@current_user, params[:calendar_id])
   end
 
   def create
