@@ -1,0 +1,1 @@
+json.extract! @stamped_date, :date
