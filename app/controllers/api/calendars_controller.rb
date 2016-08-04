@@ -6,11 +6,14 @@ class Api::CalendarsController < ApplicationController
   end
 
   def create
-    @calendar = @current_user.calendars.create(create_params)
-    @calendar.orner = @current_user.id
+    @calendar = @current_user.calendars.new(calendar_params)
     if @calendar.save
+      @user_ids = params[:user_ids].split(",")
+      @user_ids.each do |user_id|
+        @calendar.invitation_users.create(user_id: user_id)
+      end
     else
-      @error_message = [calendar.errors.full_messages].compact # エラーが入ってるインスタンス変数を定義
+      @error_message = calendar.errors.full_messages.join
     end
   end
 
@@ -21,7 +24,8 @@ class Api::CalendarsController < ApplicationController
     @current_user = auth_token.user
   end
 
-  def create_params
+  def calendar_params
     params.permit(:title, :color_R, :color_G, :color_B, :stamp_image)
+      .merge(orner: @current_user.id)
   end
 end

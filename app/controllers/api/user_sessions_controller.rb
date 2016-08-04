@@ -1,4 +1,4 @@
-class UserSessionsController < ApplicationBaseController
+class Api::UserSessionsController < ApplicationBaseController
   skip_before_filter :require_valid_token, only: [:create, :create_with_token]
 
   def create

@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :stamped_dates
   has_many :calendars, through: :calendar_users
   has_many :api_keys, dependent: :destroy
+  has_many :invitation_users
 
   validates :email, uniqueness: true
 

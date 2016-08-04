@@ -1,6 +1,6 @@
-class UsersController < ApplicationBaseController
+class Api::UsersController < ApplicationBaseController
   before_action :set_user, only: [:show, :update, :destroy]
-  skip_before_filter :require_valid_token, only: [:create, :create_with_FB]
+  skip_before_filter :require_valid_token, only: [:index, :create, :create_with_FB]
 
   # GET /users.json
   def index
