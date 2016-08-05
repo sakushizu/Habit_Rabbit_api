@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-
   namespace :api, default: {format: :json} do
-
     resources :calendars, only: [:create, :index]
     resources :stamped_dates, only: [:create, :index, :destroy]
 
