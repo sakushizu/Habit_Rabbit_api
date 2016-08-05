@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       collection do
         post :create_with_FB
       end
+      resources :invitation_users
     end
   end
 end

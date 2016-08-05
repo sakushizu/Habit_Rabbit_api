@@ -18,4 +18,5 @@ config/environments/*.local.yml
 
 vendor/
 config/*.local.yml
+public/*
 
