@@ -28,13 +28,14 @@ class Api::UsersController < ApplicationBaseController
   end
 
   def create_with_FB
-    @user = User.new(fb_user_params)
-    @user.remote_avatar_url = params[:user][:avatar]
+    @user = User.where(email: params[:user][:email]).first_or_initialize
+    @user.update(fb_user_params)
+    # @user.remote_avatar_url = params[:user][:avatar]
     if @user.save
       api_key = @user.activate
       @access_token = api_key.access_token
       @avatar_url = @user.avatar.url
-      render :create_with_FB, status: :created, location: @user
+      render :create_with_FB
     else
       render json: @user.errors, status: :unprocessable_entity
     end
