@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :calendar_users
   has_many :stamped_dates
   has_many :calendars, through: :calendar_users
+  has_many :calendars
   has_many :api_keys, dependent: :destroy
   has_many :invitation_users
 
