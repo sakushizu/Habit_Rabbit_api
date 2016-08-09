@@ -1,17 +1,15 @@
 class Api::InvitationUsersController < ApplicationController
-  # before_action :set_user, only: :index
-
 
   def index
     @current_user = User.find(params[:user_id])
-    binding.pry
-    @calendars = Calendar.find(@current_user.invitation_users.map(&:calendar_id))
+    @calendars = Calendar.find(@current_user.invitation_users.inviting_calendar.map(&:calendar_id))
+    @calendars.each do |calendar|
+      calendar.users = User.find(calendar.calendar_users.map(&:user_id))
+    end
   end
 
-  private
-
-  # def set_user
-  # auth_token = ApiKey.find_by(access_token: request.headers[:HTTP_ACCESS_TOKEN])
-  # @current_user = auth_token.user
+  def reject
+    InvitationUser.change_calendar_status(params[:user_id], params[:calendar_id]).update(status: "rejected")
+  end
 
 end
