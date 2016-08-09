@@ -3,11 +3,15 @@ class Api::CalendarsController < ApplicationController
 
   def index
     @calendars = @current_user.calendars
+    @calendars.each do |calendar|
+      calendar.users = User.find(calendar.calendar_users.map(&:user_id))
+    end
   end
 
   def create
     @calendar = @current_user.calendars.new(calendar_params)
     if @calendar.save
+      @calendar.calendar_users.create(user_id: @current_user.id)
       @user_ids = params[:user_ids].split(",")
       @user_ids.each do |user_id|
         @calendar.invitation_users.create(user_id: user_id)
