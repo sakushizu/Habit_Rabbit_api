@@ -30,6 +30,6 @@ class Api::CalendarsController < ApplicationController
 
   def calendar_params
     params.permit(:title, :color_R, :color_G, :color_B, :stamp_image)
-      .merge(orner: @current_user.id)
+      .merge(user_id: @current_user.id)
   end
 end
