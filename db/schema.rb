@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803084606) do
+ActiveRecord::Schema.define(version: 20160806031516) do
 
   create_table "api_keys", force: :cascade do |t|
     t.string   "access_token", limit: 255
@@ -32,18 +32,18 @@ ActiveRecord::Schema.define(version: 20160803084606) do
     t.integer  "color_R",     limit: 4
     t.integer  "color_G",     limit: 4
     t.integer  "color_B",     limit: 4
-    t.string   "orner",       limit: 255
+    t.string   "user_id",     limit: 255
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.string   "stamp_image", limit: 255
   end
 
-  create_table "invitaion_users", force: :cascade do |t|
+  create_table "invitation_users", force: :cascade do |t|
     t.integer  "calendar_id", limit: 4
     t.integer  "user_id",     limit: 4
-    t.integer  "status",      limit: 4
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.integer  "status",      limit: 4, default: 0
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
   create_table "stamped_dates", force: :cascade do |t|
