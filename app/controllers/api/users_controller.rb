@@ -29,7 +29,7 @@ class Api::UsersController < ApplicationBaseController
   def create
     @user = User.new(user_params)
     if @user.save
-      render :show, status: :created, location: @user
+      render :create_with_FB
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -42,7 +42,6 @@ class Api::UsersController < ApplicationBaseController
     if @user.save
       api_key = @user.activate
       @access_token = api_key.access_token
-      @avatar_url = @user.avatar.url
       render :create_with_FB
     else
       render json: @user.errors, status: :unprocessable_entity
