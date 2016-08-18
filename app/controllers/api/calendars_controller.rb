@@ -4,7 +4,10 @@ class Api::CalendarsController < ApplicationController
   def index
     @calendars = @current_user.calendars
     @calendars.each do |calendar|
-      calendar.users = User.find(calendar.calendar_users.map(&:user_id))
+      calendar.joined_users = calendar.joined_users.reject { |user|
+        user == @current_user
+      }
+      calendar.invitation_users = calendar.invitation_users.where(status: 'inviting')
     end
   end
 

@@ -13,4 +13,8 @@ class Calendar < ActiveRecord::Base
 
   validates :title, presence: true
 
+  def users_can_be_invited
+    User.all - joined_users
+  end
+
 end

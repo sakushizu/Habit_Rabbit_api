@@ -1,13 +1,21 @@
 class Api::UsersController < ApplicationBaseController
   before_action :set_user, only: [:show, :update, :destroy]
-  skip_before_filter :require_valid_token, only: [:index, :create, :create_with_FB]
+  before_action :set_current_user, only: :index
+  skip_before_action :require_valid_token, only: [:create, :create_with_FB, :not_joined_users]
 
-  # GET /users.json
   def index
     @users = User.all
+    @users = @users.reject { |user|
+      user == @current_user
+    }
   end
 
-  # GET /users/1.json
+
+  def not_joined_users
+    calendar = Calendar.find(params[:calendar_id])
+    @users = calendar.users_can_be_invited
+  end
+
   def show
     render json: @user
   end

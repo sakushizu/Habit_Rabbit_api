@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         post :create_with_FB
+        get :not_joined_users
       end
       resources :invitation_users, only: :index do
         collection do
