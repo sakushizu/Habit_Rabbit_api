@@ -4,47 +4,29 @@ class Api::CalendarsController < ApplicationController
   def index
     @calendars = @current_user.calendars
     @calendars.each do |calendar|
-      calendar.joined_users.reject { |user|
-        user == @current_user
-      }
-      calendar.invitation_users = calendar.invitation_users.where(status: 'inviting')
+      calendar.inviting
+      calendar.joined = calendar.except_owner(calendar.joined, @current_user)
     end
   end
 
   def create
     @calendar = @current_user.calendars.new(calendar_params)
     if @calendar.save
-      @calendar.calendar_users.create(user_id: @current_user.id)
+      @calendar.calendar_users.create(user_id: @current_user.id, status: 'joined')
       @user_ids = params[:user_ids].split(",")
       @user_ids.each do |user_id|
-        @calendar.invitation_users.create(user_id: user_id)
+        @calendar.calendar_users.create(user_id: user_id)
       end
     else
-      @error_message = calendar.errors.full_messages.join
+      @error_message = @calendar.errors.full_messages.join
     end
   end
 
   def update
     @calendar = @current_user.calendars.find(params[:id])
-    @calendar.update(calendar_params)
-    @calendar.invitation_users.where(status: 'inviting').destroy_all
-    unless params[:invitationUser_ids].empty?
-      invitationUser_ids = params[:invitationUser_ids].split(",")
-      invitationUser_ids.each do |user_id|
-        @calendar.invitation_users.create(user_id: user_id)
-      end
-    end
-
-    @calendar.calendar_users.destroy_all
-    @calendar.invitation_users.where(status: InvitationUser.statuses['joined']).destroy_all
-    unless params[:joined_ids].empty?
-      joined_ids = params[:joined_ids].split(",")
-      joined_ids.each do |user_id|
-        @calendar.calendar_users.create(user_id: user_id)
-      end
-    end
+    @calendar.update_with_asocciated_users(calendar_params, params[:invitationUser_ids], params[:joined_ids])
+    @calendar.calendar_users.create(user_id: @current_user.id)
   end
-
 
   private
 

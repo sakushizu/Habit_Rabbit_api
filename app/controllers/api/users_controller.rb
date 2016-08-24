@@ -5,9 +5,7 @@ class Api::UsersController < ApplicationBaseController
 
   def index
     @users = User.all
-    @users = @users.reject { |user|
-      user == @current_user
-    }
+    @users = @users.reject { |user|  user == @current_user  }
   end
 
 
@@ -20,12 +18,10 @@ class Api::UsersController < ApplicationBaseController
     render json: @user
   end
 
-  # GET /users/new
   def new
     @user = User.new
   end
 
-  # POST /users.json
   def create
     @user = User.new(user_params)
     if @user.save
@@ -38,7 +34,6 @@ class Api::UsersController < ApplicationBaseController
   def create_with_FB
     @user = User.where(email: params[:user][:email]).first_or_initialize
     @user.update(fb_user_params)
-    # @user.remote_avatar_url = params[:user][:avatar]
     if @user.save
       api_key = @user.activate
       @access_token = api_key.access_token
@@ -48,7 +43,6 @@ class Api::UsersController < ApplicationBaseController
     end
   end
 
-  # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
       if @user.update(user_params)
@@ -59,7 +53,6 @@ class Api::UsersController < ApplicationBaseController
     end
   end
 
-  # DELETE /users/1.json
   def destroy
     @user.destroy
     respond_to do |format|
@@ -68,12 +61,10 @@ class Api::UsersController < ApplicationBaseController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:email, :password, :name, :avatar)
     end

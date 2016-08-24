@@ -1,14 +1,19 @@
 class Api::CalendarUsersController < ApplicationController
 
+  def inviting_calendar
+    @current_user = User.find(params[:user_id])
+    @calendars = @current_user.inviting_calendars_include_join_users
+  end
+
   def create
-    CalendarUser.create(calendarUser_params)
-    InvitationUser.change_calendar_status(params[:user_id], params[:calendar_id]).update(status: "joined")
-    @calendar = Calendar.find(params[:calendar_id])
+    @current_user = User.find(params[:user_id])
+    @calendar = @current_user.update_calendar('joined', params[:calendar_id])
   end
 
-  private
-
-  def calendarUser_params
-    params.permit(:calendar_id, :user_id)
+  def reject
+    @current_user = User.find(params[:user_id])
+    @current_user.update_calendar('rejected', params[:calendar_id])
+    render nothing: :true
   end
+
 end

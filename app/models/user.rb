@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
   has_many :calendar_users
+  has_many :status_inviting, -> { where status: CalendarUser.statuses['inviting'] }, class_name: 'CalendarUser'
+  has_many :inviting, through: :status_inviting, class_name: 'Calendar', source: :calendar
+
   has_many :stamped_dates
   has_many :calendars, through: :calendar_users
   has_many :calendars
@@ -39,7 +42,25 @@ class User < ActiveRecord::Base
     api_key.active = false
     api_key.save
   end
- 
+
+  def except_owner
+    reject { |user|
+      user == @current_user
+    }
+  end
+
+  def inviting_calendars_include_join_users
+    calendars = inviting
+    calendars.each do |calendar|
+      calendar.joined
+    end
+  end
+
+  def update_calendar(status, calendar_id)
+    status_inviting.find_by(calendar_id: calendar_id).update(status: status)
+    return  Calendar.find(calendar_id)
+  end
+
   private
  
   def api_key

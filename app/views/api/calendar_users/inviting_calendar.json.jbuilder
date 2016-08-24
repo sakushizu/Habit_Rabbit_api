@@ -6,14 +6,8 @@ json.calendars do
       json.extract! calendar.user, :id, :email, :name
       json.avatar calendar.user.avatar.url
     end
-    json.joined_users do
+    json.users do
       json.array! calendar.joined do |user|
-        json.extract! user, :id, :email, :name
-        json.avatar user.avatar.url
-      end
-    end
-    json.inviting_users do
-      json.array! calendar.inviting do |user|
         json.extract! user, :id, :email, :name
         json.avatar user.avatar.url
       end
