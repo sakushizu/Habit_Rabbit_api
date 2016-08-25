@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
   namespace :api, default: {format: :json} do
-    resources :calendars, only: [:create, :index]
+    resources :calendars, only: [:index, :create, :update]
     resources :stamped_dates, only: [:create, :index, :destroy]
-    resources :calendar_users, only: :create
     resources :user_sessions, only: :create do
       collection do
         delete :destroy
@@ -13,13 +12,14 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         post :create_with_FB
+        get :not_joined_users
       end
-      resources :invitation_users, only: :index do
+      resources :calendar_users, only: :create do
         collection do
-          post :reject
+          get :inviting_calendar
+          patch :reject
         end
       end
-
     end
   end
 end

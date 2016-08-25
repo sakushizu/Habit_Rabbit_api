@@ -1,24 +1,31 @@
 class Api::CalendarsController < ApplicationController
-  before_action :set_user, only: [:create, :index]
+  before_action :set_user, only: [:index, :create, :update]
 
   def index
     @calendars = @current_user.calendars
     @calendars.each do |calendar|
-      calendar.users = User.find(calendar.calendar_users.map(&:user_id))
+      calendar.inviting
+      calendar.joined = calendar.except_owner(calendar.joined, @current_user)
     end
   end
 
   def create
     @calendar = @current_user.calendars.new(calendar_params)
     if @calendar.save
-      @calendar.calendar_users.create(user_id: @current_user.id)
+      @calendar.calendar_users.create(user_id: @current_user.id, status: 'joined')
       @user_ids = params[:user_ids].split(",")
       @user_ids.each do |user_id|
-        @calendar.invitation_users.create(user_id: user_id)
+        @calendar.calendar_users.create(user_id: user_id)
       end
     else
-      @error_message = calendar.errors.full_messages.join
+      @error_message = @calendar.errors.full_messages.join
     end
+  end
+
+  def update
+    @calendar = @current_user.calendars.find(params[:id])
+    @calendar.update_with_asocciated_users(calendar_params, params[:invitationUser_ids], params[:joined_ids])
+    @calendar.calendar_users.create(user_id: @current_user.id)
   end
 
   private

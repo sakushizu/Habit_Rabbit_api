@@ -2,7 +2,6 @@ class Api::UserDateController < ApplicationController
   load_and_authorize_resource
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
-  # accessible_byでアクセスを制限
   def index
     @dates = UserDate.accessible_by(current_ability)
   end
@@ -18,7 +17,6 @@ class Api::UserDateController < ApplicationController
   end
 
   def create
-    # ノートの作成者を設定
     @date = UserDate.new(date_params.merge(user: current_user))
 
     respond_to do |format|
@@ -35,10 +33,8 @@ class Api::UserDateController < ApplicationController
   def update
     respond_to do |format|
       if @date.update(date_params)
-        format.html { redirect_to @date, notice: 'Date was successfully updated.' }
         format.json { render :show, status: :ok, location: @date }
       else
-        format.html { render :edit }
         format.json { render json: @date.errors, status: :unprocessable_entity }
       end
     end
@@ -47,7 +43,6 @@ class Api::UserDateController < ApplicationController
   def destroy
     @date.destroy
     respond_to do |format|
-      format.html { redirect_to notes_url, notice: 'Date was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

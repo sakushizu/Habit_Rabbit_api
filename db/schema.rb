@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160806031516) do
+ActiveRecord::Schema.define(version: 20160823070914) do
 
   create_table "api_keys", force: :cascade do |t|
     t.string   "access_token", limit: 255
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20160806031516) do
   create_table "calendar_users", force: :cascade do |t|
     t.integer "calendar_id", limit: 4
     t.integer "user_id",     limit: 4
+    t.integer "status",      limit: 4, default: 0, null: false
   end
 
   create_table "calendars", force: :cascade do |t|

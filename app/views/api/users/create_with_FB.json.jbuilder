@@ -1,3 +1,3 @@
 json.extract! @user, :id, :name, :email
-json.avatar @avatar_url
+json.avatar @user.avatar.url
 json.access_token @access_token
