@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
     return false if !api_key || !api_key.before_expired? || !api_key.active
     return !self.find(api_key.user_id).nil?
   end
- 
+
   def activate
     if !api_key
       return ApiKey.create(user_id: self.id)
@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
       return api_key
     end
   end
- 
+
   def inactivate
     api_key.active = false
     api_key.save
@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
   end
 
   private
- 
+
   def api_key
     @api_key ||= ApiKey.find_by_user_id(self.id)
   end

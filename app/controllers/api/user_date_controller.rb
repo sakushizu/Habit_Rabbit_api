@@ -21,10 +21,8 @@ class Api::UserDateController < ApplicationController
 
     respond_to do |format|
       if @date.save
-        format.html { redirect_to @date, notice: 'Date was successfully created.' }
         format.json { render :show, status: :created, location: @date }
       else
-        format.html { render :new }
         format.json { render json: @date.errors, status: :unprocessable_entity }
       end
     end
