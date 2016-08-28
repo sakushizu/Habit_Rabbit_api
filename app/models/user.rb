@@ -2,7 +2,10 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery!
   has_many :calendar_users
   has_many :status_inviting, -> { where status: CalendarUser.statuses['inviting'] }, class_name: 'CalendarUser'
+  has_many :status_joined, -> { where status: CalendarUser.statuses['joined'] }, class_name: 'CalendarUser'
+
   has_many :inviting, through: :status_inviting, class_name: 'Calendar', source: :calendar
+  has_many :join_calendars, through: :status_joined, class_name: 'Calendar', source: :calendar
 
   has_many :stamped_dates
   has_many :calendars, through: :calendar_users
@@ -21,7 +24,7 @@ class User < ActiveRecord::Base
     return false if !api_key || !api_key.before_expired? || !api_key.active
     return !self.find(api_key.user_id).nil?
   end
- 
+
   def activate
     if !api_key
       return ApiKey.create(user_id: self.id)
@@ -37,7 +40,7 @@ class User < ActiveRecord::Base
       return api_key
     end
   end
- 
+
   def inactivate
     api_key.active = false
     api_key.save
@@ -62,7 +65,7 @@ class User < ActiveRecord::Base
   end
 
   private
- 
+
   def api_key
     @api_key ||= ApiKey.find_by_user_id(self.id)
   end

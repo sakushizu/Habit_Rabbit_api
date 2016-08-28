@@ -7,7 +7,7 @@ json.calendars do
       json.avatar calendar.user.avatar.url
     end
     json.joined_users do
-      json.array! calendar.joined do |user|
+      json.array! calendar.join_user_except_for(@current_user) do |user|
         json.extract! user, :id, :email, :name
         json.avatar user.avatar.url
       end

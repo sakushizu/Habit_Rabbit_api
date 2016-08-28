@@ -9,7 +9,7 @@ class Calendar < ActiveRecord::Base
   has_many :joined, through: :status_joined, source: :user
   has_many :reject, through: :status_reject, source: :user
 
-  has_many :stampd_dates
+  has_many :stamped_dates
 
 
   mount_uploader :stamp_image, AvatarUploader
@@ -20,10 +20,18 @@ class Calendar < ActiveRecord::Base
     User.all - joined
   end
 
-  def except_owner(users, current_user)
-    users.reject { |user|
-      user == current_user
-    }
+  def join_user_except_for(user)
+    reject {|u| u == user}
+  end
+
+  def sort_users_ranking
+    joined.sort do |user_a, user_b|
+      stamped_count(user_b) <=> stamped_count(user_a)
+    end
+  end
+
+  def stamped_count(user)
+    stamped_dates.where(user_id: user.id).count
   end
 
   def update_with_asocciated_users(calendar_params, invitation_user_ids, joined_user_ids)
