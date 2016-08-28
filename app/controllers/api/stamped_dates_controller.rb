@@ -13,6 +13,11 @@ class Api::StampedDatesController < ApplicationController
     end
   end
 
+  def calendar_users_ranking
+    @calendar = Calendar.find(params[:calendar_id])
+    @calendar_users_ranking = @calendar.sort_users_ranking
+  end
+
   def destroy
     StampedDate.destroy(params[:id])
     respond_to do |format|
@@ -31,3 +36,4 @@ class Api::StampedDatesController < ApplicationController
     params.permit(:date, :calendar_id).merge(user_id: @current_user.id)
   end
 end
+
