@@ -57,3 +57,4 @@ gem 'config'
 gem 'fog'
 gem 'omniauth-facebook'
 gem 'multi_json'
+gem 'therubyracer', platforms: :ruby
