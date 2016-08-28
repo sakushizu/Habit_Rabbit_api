@@ -2,7 +2,10 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery!
   has_many :calendar_users
   has_many :status_inviting, -> { where status: CalendarUser.statuses['inviting'] }, class_name: 'CalendarUser'
+  has_many :status_joined, -> { where status: CalendarUser.statuses['joined'] }, class_name: 'CalendarUser'
+
   has_many :inviting, through: :status_inviting, class_name: 'Calendar', source: :calendar
+  has_many :join_calendars, through: :status_joined, class_name: 'Calendar', source: :calendar
 
   has_many :stamped_dates
   has_many :calendars, through: :calendar_users

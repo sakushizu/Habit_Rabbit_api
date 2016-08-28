@@ -2,10 +2,9 @@ class Api::CalendarsController < ApplicationController
   before_action :set_user, only: [:index, :create, :update]
 
   def index
-    @calendars = @current_user.calendars
+    @calendars = @current_user.join_calendars
     @calendars.each do |calendar|
       calendar.inviting
-      calendar.joined = calendar.except_owner(calendar.joined, @current_user)
     end
   end
 
