@@ -28,6 +28,7 @@ class Api::UsersController < ApplicationBaseController
       api_key = @user.activate
       @access_token = api_key.access_token
       logger.info "#{@user.avatar.url}"
+      logger.info "#{@access_token}"
       render :create_with_FB
     else
       render json: @user.errors, status: :unprocessable_entity
