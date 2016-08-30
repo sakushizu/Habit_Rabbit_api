@@ -31,6 +31,7 @@ class Api::CalendarsController < ApplicationController
 
   def set_user
     auth_token = ApiKey.find_by(access_token: request.headers[:HTTP_ACCESS_TOKEN])
+    logger.info "#{request.headers[:HTTP_ACCESS_TOKEN]}"
     @current_user = auth_token.user
   end
 
