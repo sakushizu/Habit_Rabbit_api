@@ -28,7 +28,7 @@ class Api::StampedDatesController < ApplicationController
   private
 
   def set_user
-    auth_token = ApiKey.find_by(access_token: request.headers[:HTTP_ACCESS_TOKEN])
+    auth_token = ApiKey.find_by(access_token: request.headers['HTTP-ACCESS-TOKEN'])
     @current_user = auth_token.user
   end
 

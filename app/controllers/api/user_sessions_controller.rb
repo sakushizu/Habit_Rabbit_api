@@ -14,13 +14,13 @@ class Api::UserSessionsController < ApplicationBaseController
   end
 
   def create_with_token
-    auth_token = ApiKey.find_by(access_token: request.headers[:HTTP_ACCESS_TOKEN])
+    auth_token = ApiKey.find_by(access_token: request.headers['HTTP-ACCESS-TOKEN'])
     @user = auth_token.user
     @avatar_url = @user.avatar.url
   end
 
   def destroy
-    access_token = request.headers[:HTTP_ACCESS_TOKEN]
+    access_token = request.headers['HTTP-ACCESS-TOKEN']
     api_key = ApiKey.find_by_access_token(access_token)
     if api_key
       user = User.find(api_key.user_id)
