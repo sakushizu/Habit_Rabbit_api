@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationBaseController
   before_action :set_user, only: [:show, :update, :destroy]
   before_action :set_current_user, only: :index
-  skip_before_action :require_valid_token, only: [:create, :create_with_FB, :not_joined_users]
+  skip_before_action :require_valid_token, only: [:create, :create_with_fb, :not_joined_users]
 
   def index
     @users = User.all
@@ -29,19 +29,19 @@ class Api::UsersController < ApplicationBaseController
       @access_token = api_key.access_token
       logger.info "#{@user.avatar.url}"
       logger.info "#{@access_token}"
-      render :create_with_FB
+      render :create_with_fb
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
 
-  def create_with_FB
+  def create_with_fb
     @user = User.where(email: params[:user][:email]).first_or_initialize
-    @user.update(fb_user_params)
-    if @user.save
+    @user.remote_avatar_url = user_params[:avatar]
+    if @user.update(user_params)
       api_key = @user.activate
       @access_token = api_key.access_token
-      render :create_with_FB
+      render :create_with_fb
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -73,7 +73,4 @@ class Api::UsersController < ApplicationBaseController
       params.require(:user).permit(:email, :password, :name, :avatar)
     end
 
-    def fb_user_params
-      params.require(:user).permit(:name, :email)
-    end
 end

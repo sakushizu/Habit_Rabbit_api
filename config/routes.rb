@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
     resources :users do
       collection do
-        post :create_with_FB
+        post :create_with_fb
         get :not_joined_users
       end
       resources :calendar_users, only: :create do
