@@ -2,7 +2,6 @@ class Api::UserSessionsController < ApplicationBaseController
   skip_before_filter :require_valid_token, only: [:create, :create_with_token]
 
   def create
-    binding.pry
     if @user = login(login_user[:email], login_user[:password])
       api_key = @user.activate
       @access_token = api_key.access_token
