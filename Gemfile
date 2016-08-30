@@ -33,28 +33,22 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'erb2haml'
   gem 'web-console', '~> 2.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  # gem 'spring'
 end
 
-gem 'pry-rails'
 gem 'sorcery'
 gem 'haml-rails'
-gem 'erb2haml'
 gem 'active_link_to'
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
-gem 'pry-byebug'
 gem 'carrierwave'
 gem 'config'
 gem 'fog'
 gem 'omniauth-facebook'
-gem 'multi_json'
 gem 'therubyracer', platforms: :ruby
