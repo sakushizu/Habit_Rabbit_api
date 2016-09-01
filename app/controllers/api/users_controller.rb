@@ -27,8 +27,6 @@ class Api::UsersController < ApplicationBaseController
     if @user.save
       api_key = @user.activate
       @access_token = api_key.access_token
-      logger.info "#{@user.avatar.url}"
-      logger.info "#{@access_token}"
       render :create_with_fb
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -41,7 +39,7 @@ class Api::UsersController < ApplicationBaseController
     if @user.update(user_params)
       api_key = @user.activate
       @access_token = api_key.access_token
-      render json: @user, @access_token
+      format.json { render json: @user, @access_token }
     else
       render json: @user.errors, status: :unprocessable_entity
     end
