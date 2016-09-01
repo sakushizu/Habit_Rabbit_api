@@ -52,6 +52,4 @@ class Calendar < ActiveRecord::Base
     end
   end
 
-
-
 end

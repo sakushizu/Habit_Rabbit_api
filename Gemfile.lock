@@ -375,7 +375,6 @@ DEPENDENCIES
   haml-rails
   jbuilder (~> 2.0)
   jquery-rails
-  multi_json
   mysql2 (>= 0.3.13, < 0.5)
   omniauth-facebook
   pry-byebug
