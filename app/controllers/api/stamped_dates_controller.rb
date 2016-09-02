@@ -20,9 +20,9 @@ class Api::StampedDatesController < ApplicationController
 
   def destroy
     StampedDate.destroy(params[:id])
-    respond_to do |format|
-      format.json { render { status: :ok }, status: :ok }
-    end
+      respond_to do |format|
+        format.json { render nothing: true, status: :ok }
+      end
   end
 
   private
