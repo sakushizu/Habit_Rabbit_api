@@ -24,7 +24,7 @@ class Api::CalendarsController < ApplicationController
   def update
     @calendar = @current_user.calendars.find(params[:id])
     @calendar.update_with_asocciated_users(calendar_params, params[:invitationUser_ids], params[:joined_ids])
-    @calendar.calendar_users.create(user_id: @current_user.id)
+    @calendar.calendar_users.create(user_id: @current_user.id, status: 'joined')
   end
 
   private
